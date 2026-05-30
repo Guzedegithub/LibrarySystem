@@ -30,22 +30,27 @@
    git clone https://github.com/你的用户名/你的仓库名.git
    cd 你的仓库名
 2. 创建并激活虚拟环境（Windows）
+   ```bash
    python -m venv venv
    venv\Scripts\activate
 3. 安装依赖
+   ```bash
    pip install -r requirements.txt
 4. 配置数据库
-   若使用 MySQL：创建数据库 library_db，并在 LibraryProject/local_settings.py 中填写数据库配置。
-   若使用 SQLite：修改 settings.py，将 DATABASES 改为 SQLite 配置。
+ - 若使用 MySQL：创建数据库 library_db，并在 LibraryProject/local_settings.py 中填写数据库配置。
+ - 若使用 SQLite：修改 settings.py，将 DATABASES 改为 SQLite 配置。
 5. 执行数据库迁移
+   ```bash
    python manage.py makemigrations
    python manage.py migrate
 6. 创建管理员账户
+   ```bash
    python manage.py createsuperuser
 7. 启动开发服务器
+   ```bash
    python manage.py runserver
 8. 访问系统
-   打开浏览器访问 http://127.0.0.1:8000/books/
+ - 打开浏览器访问 http://127.0.0.1:8000/books/
 
 ## 项目截图
 ![图书列表](screenshots/book_list.png)
@@ -54,5 +59,5 @@
 ![统计报表](screenshots/logs.png)
 
 # 作者
-兰希飞
-lanxifei1295566977@qq.com
+- 兰希飞
+- lanxifei1295566977@qq.com
