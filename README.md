@@ -27,8 +27,8 @@
 
 1. 克隆项目
    ```bash
-   git clone https://github.com/你的用户名/你的仓库名.git
-   cd 你的仓库名
+   git clone https://github.com/Guzedegithub/LibrarySystem.git
+   cd LibrarySystem
 2. 创建并激活虚拟环境（Windows）
    ```bash
    python -m venv venv
