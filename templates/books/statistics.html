@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}统计报表{% endblock %}
+{% block content %}
+<h2>借阅统计报表</h2>
+
+<!-- 折线图容器 -->
+<div class="card mb-4">
+    <div class="card-header">近7天借阅趋势</div>
+    <div class="card-body">
+        <canvas id="borrowChart" width="400" height="200"></canvas>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">热门图书 (Top5)</div>
+            <div class="card-body">
+                <ol>
+                    {% for book in hot_books %}
+                    <li>{{ book.title }} - 借阅 {{ book.borrow_count }} 次</li>
+                    {% empty %}
+                    <li>暂无数据</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">逾期未还图书</div>
+            <div class="card-body">
+                {% if overdue_records %}
+                <ul>
+                    {% for record in overdue_records %}
+                    <li>{{ record.book.title }} (借阅人: {{ record.user.username }}) 应还: {{ record.due_date }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>暂无逾期图书</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">读者活跃度 (Top5)</div>
+            <div class="card-body">
+                <ol>
+                    {% for user in active_users %}
+                    <li>{{ user.username }} - 借阅 {{ user.borrow_count }} 次</li>
+                    {% empty %}
+                    <li>暂无数据</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('borrowChart').getContext('2d');
+    const dailyData = {{ daily_data|safe }};
+    const labels = dailyData.map(item => item.date);
+    const counts = dailyData.map(item => item.count);
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '借阅数量',
+                data: counts,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    stepSize: 1
+                }
+            }
+        }
+    });
+</script>
+<!-- 猜你喜欢 -->
+<div class="card mt-4">
+    <div class="card-header bg-success text-white">📚 猜你喜欢</div>
+    <div class="card-body">
+        <div class="row">
+            {% for book in recommend_books %}
+            <div class="col-md-2 text-center">
+                <div class="mb-2">{{ book.title }}</div>
+                <a href="{% url 'borrow_book' book.id %}" class="btn btn-sm btn-outline-success">借阅</a>
+            </div>
+            {% empty %}
+            <p class="text-muted">暂无推荐，多借几本书试试吧～</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

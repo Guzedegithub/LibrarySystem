@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}我的借阅{% endblock %}
+{% block content %}
+<h2>我的借阅记录</h2>
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr><th>书名</th><th>借书日期</th><th>应还日期</th><th>实际归还日期</th><th>状态</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.book.title }}</td>
+            <td>{{ record.borrow_date }}</td>
+            <td>{{ record.due_date }}</td>
+            <td>{{ record.return_date|default:"-" }}</td>
+            <td>{% if record.status == 'borrowed' %}借出中{% else %}已归还{% endif %}</td>
+            <td>
+                {% if record.status == 'borrowed' %}
+                <a href="{% url 'return_book' record.id %}" class="btn btn-sm btn-warning">归还</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-center">暂无借阅记录</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'book_list' %}" class="btn btn-secondary">返回图书列表</a>
+{% endblock %}

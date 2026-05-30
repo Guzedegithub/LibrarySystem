@@ -1,0 +1,8 @@
+venv/
+*.py[cod]
+__pycache__/
+db.sqlite3
+LibraryProject/local_settings.py
+*.log
+.vs/
+media/
