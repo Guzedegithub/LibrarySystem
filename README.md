@@ -56,7 +56,7 @@
 ![图书列表](screenshots/book_list.png)
 ![我的借阅](screenshots/my_borrows.png)
 ![统计报表](screenshots/statistics.png)
-![统计报表](screenshots/logs.png)
+![操作日志](screenshots/logs.png)
 
 # 作者
 - 兰希飞
